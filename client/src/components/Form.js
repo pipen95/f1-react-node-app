@@ -33,7 +33,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
     });
   };
   const postData = (id, formData, closeModal) => {
-    fetch("https://webhook.site/ab134c9d-fbf4-4d03-a1af-aa9007b907a9", {
+    fetch("http://localhost:3001/api/v1/votes", {
       method: "post",
       mode: "no-cors",
       headers: {
@@ -41,21 +41,23 @@ export const Form = ({ id, driver_name, closeModal }) => {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        driver_id: id,
-        country: `${
-          formData.country !== undefined ? `${formData.country}` : `anonymous`
-        }`,
-        name: `${
-          formData.name !== undefined ? `${formData.name}` : `anonymous`
-        }`,
-        info_consent: `${
-          formData.info_consent !== undefined
-            ? `${formData.info_consent}`
-            : `no`
-        }`,
-        rating: `${
-          formData.rating !== undefined ? `${formData.rating}` : `no rate`
-        }`,
+        vote: {
+          driverId: id,
+          country: `${
+            formData.country !== undefined ? `${formData.country}` : `anonymous`
+          }`,
+          name: `${
+            formData.name !== undefined ? `${formData.name}` : `anonymous`
+          }`,
+          infoConsent: `${
+            formData.info_consent !== undefined
+              ? `${formData.info_consent}`
+              : `no`
+          }`,
+          rating: `${
+            formData.rating !== undefined ? `${formData.rating}` : `no rate`
+          }`,
+        },
       }),
     })
       .then((res) => {
