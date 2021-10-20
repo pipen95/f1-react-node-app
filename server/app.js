@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const AppError = require("./appError");
 const voteRouter = require("./routes/voteRoutes");
+const bodyParser = require("body-parser");
 
 const app = express();
 
@@ -17,11 +18,12 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Parse JSON bodies (as sent by API clients)
-app.use(express.json());
+// const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 
 // Access the parse results as request.body
 // ROUTES
-app.use("/ap1/v1/votes", voteRouter);
+app.use("/api/v1/votes", voteRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
