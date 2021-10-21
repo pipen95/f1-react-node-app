@@ -3,10 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 const AppError = require("./appError");
 const voteRouter = require("./routes/voteRoutes");
-const bodyParser = require("body-parser");
-
 const app = express();
-
+const cors = require("cors");
 // GLOBAL MIDDLEWARES
 
 // Serving static files
@@ -19,7 +17,8 @@ if (process.env.NODE_ENV === "development") {
 
 // Parse JSON bodies (as sent by API clients)
 // const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+app.use(cors());
+app.use(express.json());
 
 // Access the parse results as request.body
 // ROUTES

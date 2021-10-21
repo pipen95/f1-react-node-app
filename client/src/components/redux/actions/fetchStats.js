@@ -1,4 +1,4 @@
-import NEW_STATS from "../types/newStats";
+import NEW_STATS from "../types/types";
 var parser = require("xml2json-light");
 
 var requestOptions = {

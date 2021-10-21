@@ -1,6 +1,7 @@
 import React, { useReducer, useState } from "react";
 import CountrySelectOptions from "./CountrySelect";
 import StarRating from "./StarRating";
+import axios from "axios";
 
 const formReducer = (state, event) => {
   if (event.reset) {
@@ -32,59 +33,42 @@ export const Form = ({ id, driver_name, closeModal }) => {
       value: event.target.value,
     });
   };
-  const postData = (id, formData, closeModal) => {
-    fetch("http://localhost:3001/api/v1/votes", {
-      method: "post",
-      mode: "no-cors",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        vote: {
-          driverId: id,
-          country: `${
-            formData.country !== undefined ? `${formData.country}` : `anonymous`
-          }`,
-          name: `${
-            formData.name !== undefined ? `${formData.name}` : `anonymous`
-          }`,
-          infoConsent: `${
-            formData.info_consent !== undefined
-              ? `${formData.info_consent}`
-              : `no`
-          }`,
-          rating: `${
-            formData.rating !== undefined ? `${formData.rating}` : `no rate`
-          }`,
-        },
-      }),
-    })
-      .then((res) => {
-        console.log(res.body);
-        setSubmitting(true);
+
+  const postData = async (id, formData, closeModal) => {
+    const payload = {
+      driverId: id,
+      country: `${
+        formData.country !== undefined ? `${formData.country}` : `anonymous`
+      }`,
+      name: `${formData.name !== undefined ? `${formData.name}` : `anonymous`}`,
+      infoConsent: `${
+        formData.info_consent !== undefined ? `${formData.info_consent}` : `no`
+      }`,
+      rating: `${
+        formData.rating !== undefined ? `${formData.rating}` : `no rate`
+      }`,
+    };
+
+    try {
+      const res = await axios.post(
+        "http://localhost:3001/api/v1/votes",
+        payload
+      );
+      if (res.status === 201 || 204) {
+        console.log(formData);
+        console.log(res);
+        setFormData({
+          reset: true,
+        });
         window.setTimeout(() => {
           closeModal();
           setSubmitting(false);
-          setFormData({
-            reset: true,
-          });
         }, 2000);
-      })
-      .catch((error) => {
-        if (error.response) {
-          // Request made and server responded
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log("Error", error.message);
-        }
-      });
+      }
+      return res.data.body;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
