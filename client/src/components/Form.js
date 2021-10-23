@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useEffect, useRef } from "react";
 import CountrySelectOptions from "./CountrySelect";
 import StarRating from "./StarRating";
 import axios from "axios";
@@ -21,18 +21,14 @@ const formReducer = (state, event) => {
 export const Form = ({ id, driver_name, closeModal }) => {
   const [formData, setFormData] = useReducer(formReducer, {});
   const [submitting, setSubmitting] = useState(false);
+  let _isMounted = useRef(true);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    postData(id, formData, closeModal);
-  };
-
-  const handleChange = (event) => {
-    setFormData({
-      name: event.target.name,
-      value: event.target.value,
-    });
-  };
+  useEffect(() => {
+    return () => {
+      // ComponentWillUnmount in Class Component
+      _isMounted.current = false;
+    };
+  }, []);
 
   const postData = async (id, formData, closeModal) => {
     const payload = {
@@ -54,21 +50,38 @@ export const Form = ({ id, driver_name, closeModal }) => {
         "http://localhost:3001/api/v1/votes",
         payload
       );
-      if (res.status === 201 || 204) {
+      if (_isMounted.current) {
+        //
         console.log(formData);
         console.log(res);
         setFormData({
           reset: true,
         });
-        window.setTimeout(() => {
+
+        setSubmitting(false);
+
+        if (res.status === 201 || 204) {
           closeModal();
-          setSubmitting(false);
-        }, 2000);
+        }
+      } else {
+        _isMounted = null;
       }
-      return res.data.body;
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    postData(id, formData, closeModal);
+  };
+
+  const handleChange = (event) => {
+    setFormData({
+      name: event.target.name,
+      value: event.target.value,
+    });
   };
 
   return (
