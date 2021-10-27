@@ -1,48 +1,91 @@
 import React, { useReducer, useState, useEffect, useRef } from "react";
-import CountrySelectOptions from "./CountrySelect";
+import CountrySelect from "./CountrySelect";
+import StateSelect from "./StateSelect";
 import StarRating from "./StarRating";
+import GeoContext from "./GeoContext";
 import axios from "axios";
 
-const formReducer = (state, event) => {
-  if (event.reset) {
-    return {
-      country: "",
-      name: "",
-      info_consent: "no",
-      rating: 0,
-    };
+const GeoInitialeState = {
+  countries: [],
+  states: [],
+  cities: [],
+  data: {
+    country: "",
+    name: "",
+    info_consent: "no",
+    rating: 0,
+  },
+};
+
+const GeoReducer = (state, action) => {
+  switch (action.type) {
+    case "GET_COUNTRIES":
+      return { ...state, countries: [...state.countries, action.countries] };
+    case "GET_STATES":
+      return { ...state, states: [...state.states, action.states] };
+
+    case "ADD_DATA":
+      return {
+        ...state,
+        data: { ...state.data, [action.data.name]: action.data.value },
+      };
+
+    case "RESET":
+      return GeoInitialeState;
+
+    default:
+      return state;
   }
-  return {
-    ...state,
-    [event.name]: event.value,
-  };
 };
 
 export const Form = ({ id, driver_name, closeModal }) => {
-  const [formData, setFormData] = useReducer(formReducer, {});
+  const [state, dispatch] = useReducer(GeoReducer, GeoInitialeState);
   const [submitting, setSubmitting] = useState(false);
   let _isMounted = useRef(true);
-
+  const { country, name, info_consent } = state.data;
   useEffect(() => {
+    const getCountries = async () => {
+      const res = await axios(
+        "https://countriesnow.space/api/v0.1/countries/flag/images"
+      );
+      if (res) {
+        return dispatch({ type: "GET_COUNTRIES", countries: res.data });
+      }
+    };
+    getCountries();
+
+    if (country) {
+      let raw = { country: `${country}` };
+      const getStates = async () => {
+        const res = await axios.post(
+          "https://countriesnow.space/api/v0.1/countries/states",
+          raw
+        );
+        if (res) {
+          return dispatch({ type: "GET_STATES", states: res.data });
+        }
+        console.log(res.data);
+      };
+      getStates();
+    }
+
     return () => {
       // ComponentWillUnmount in Class Component
       _isMounted.current = false;
     };
-  }, []);
+  }, [country]);
 
-  const postData = async (id, formData, closeModal) => {
+  const postData = async (
+    id,
+    { country, name, info_consent, rating },
+    closeModal
+  ) => {
     const payload = {
       driverId: id,
-      country: `${
-        formData.country !== undefined ? `${formData.country}` : `anonymous`
-      }`,
-      name: `${formData.name !== undefined ? `${formData.name}` : `anonymous`}`,
-      infoConsent: `${
-        formData.info_consent !== undefined ? `${formData.info_consent}` : `no`
-      }`,
-      rating: `${
-        formData.rating !== undefined ? `${formData.rating}` : `no rate`
-      }`,
+      country: `${country !== undefined ? `${country}` : `anonymous`}`,
+      name: `${name !== undefined ? `${name}` : `anonymous`}`,
+      infoConsent: `${info_consent !== undefined ? `${info_consent}` : `no`}`,
+      rating: `${rating !== undefined ? `${rating}` : `no rate`}`,
     };
 
     try {
@@ -51,15 +94,10 @@ export const Form = ({ id, driver_name, closeModal }) => {
         payload
       );
       if (_isMounted.current) {
-        //
-        console.log(formData);
+        console.log(state);
         console.log(res);
-        setFormData({
-          reset: true,
-        });
-
+        dispatch({ type: "RESET" });
         setSubmitting(false);
-
         if (res.status === 201 || 204) {
           closeModal();
         }
@@ -74,13 +112,16 @@ export const Form = ({ id, driver_name, closeModal }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
-    postData(id, formData, closeModal);
+    postData(id, state.data, closeModal);
   };
 
   const handleChange = (event) => {
-    setFormData({
-      name: event.target.name,
-      value: event.target.value,
+    dispatch({
+      type: "ADD_DATA",
+      data: {
+        name: event.target.name,
+        value: event.target.value,
+      },
     });
   };
 
@@ -134,7 +175,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
               </div>
             </fieldset>
 
-            {formData.info_consent === "yes" && (
+            {info_consent === "yes" && (
               <div>
                 <fieldset className="form-group" disabled={submitting}>
                   <label htmlFor="name">Name</label>
@@ -143,21 +184,25 @@ export const Form = ({ id, driver_name, closeModal }) => {
                     className="form-control"
                     name="name"
                     onChange={handleChange}
-                    value={formData.name || ""}
+                    value={name || ""}
                   />
                 </fieldset>
-                <fieldset className="form-group" disabled={submitting}>
-                  <label htmlFor="country">Country</label>
-                  <select
-                    id="country"
-                    name="country"
-                    className="form-control"
-                    onChange={handleChange}
-                    value={formData.country || ""}
-                  >
-                    <CountrySelectOptions />
-                  </select>
-                </fieldset>
+
+                <GeoContext.Provider value={[state]}>
+                  <fieldset className="form-group" disabled={submitting}>
+                    <CountrySelect handleChange={handleChange} />
+                  </fieldset>
+                  {state.states && (
+                    <fieldset className="form-group" disabled={submitting}>
+                      <StateSelect handleChange={handleChange} />
+                    </fieldset>
+                  )}
+                  {/* {state !== "" && 
+                  <fieldset className="form-group" disabled={submitting}>
+                  <CitySelect />} 
+                  </fieldset>
+                  */}
+                </GeoContext.Provider>
               </div>
             )}
 
