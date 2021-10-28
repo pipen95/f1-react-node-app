@@ -1,6 +1,7 @@
 import React, { useReducer, useState, useEffect, useRef } from "react";
 import CountrySelect from "./CountrySelect";
 import StateSelect from "./StateSelect";
+import CitySelect from "./CitySelect";
 import StarRating from "./StarRating";
 import GeoContext from "./GeoContext";
 import axios from "axios";
@@ -23,6 +24,8 @@ const GeoReducer = (state, action) => {
       return { ...state, countries: [...state.countries, action.countries] };
     case "GET_STATES":
       return { ...state, states: [...state.states, action.states] };
+    case "GET_CITIES":
+      return { ...state, cities: [...state.cities, action.cities] };
 
     case "ADD_DATA":
       return {
@@ -55,25 +58,45 @@ export const Form = ({ id, driver_name, closeModal }) => {
     getCountries();
 
     if (country) {
-      let raw = { country: `${country}` };
-      const getStates = async () => {
-        const res = await axios.post(
-          "https://countriesnow.space/api/v0.1/countries/states",
-          raw
-        );
-        if (res) {
-          return dispatch({ type: "GET_STATES", states: res.data });
-        }
-        console.log(res.data);
-      };
-      getStates();
+      try {
+        const getStates = async () => {
+          let raw = { country: `${country}` };
+          const res = await axios.post(
+            "https://countriesnow.space/api/v0.1/countries/states",
+            raw
+          );
+          if (res) {
+            return dispatch({ type: "GET_STATES", states: res.data });
+          }
+        };
+        getStates();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (state) {
+      try {
+        const getCities = async () => {
+          let raw = { country: `${country}`, state: `${state}` };
+          const res = await axios.post(
+            "https://countriesnow.space/api/v0.1/countries/state/cities",
+            raw
+          );
+          if (res) {
+            return dispatch({ type: "GET_CITIES", states: res.data });
+          }
+        };
+        getCities();
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     return () => {
       // ComponentWillUnmount in Class Component
       _isMounted.current = false;
     };
-  }, [country]);
+  }, [country, state]);
 
   const postData = async (
     id,
@@ -192,16 +215,16 @@ export const Form = ({ id, driver_name, closeModal }) => {
                   <fieldset className="form-group" disabled={submitting}>
                     <CountrySelect handleChange={handleChange} />
                   </fieldset>
-                  {state.states && (
+                  {country && (
                     <fieldset className="form-group" disabled={submitting}>
                       <StateSelect handleChange={handleChange} />
                     </fieldset>
                   )}
-                  {/* {state !== "" && 
-                  <fieldset className="form-group" disabled={submitting}>
-                  <CitySelect />} 
-                  </fieldset>
-                  */}
+                  {state && (
+                    <fieldset className="form-group" disabled={submitting}>
+                      <CitySelect />
+                    </fieldset>
+                  )}
                 </GeoContext.Provider>
               </div>
             )}

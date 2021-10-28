@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import GeoContext from "./GeoContext";
 
-function StateSelect({ handleChange }) {
+function CitySelect({ handleChange }) {
   const [state] = useContext(GeoContext);
+  console.log(state);
   return (
     <>
       <label htmlFor="state">State</label>
@@ -17,13 +18,13 @@ function StateSelect({ handleChange }) {
           --Please choose a state--
         </option>
 
-        {state.states[0] !== undefined &&
+        {/* {state.states[0] !== undefined &&
           state.states[0].data.states.map(({ name }) => (
             <option value={name}>{name}</option>
-          ))}
+          ))} */}
       </select>
     </>
   );
 }
 
-export default StateSelect;
+export default CitySelect;
