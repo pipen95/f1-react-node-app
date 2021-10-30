@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import GeoContext from "./GeoContext";
 
 function CitySelect({ handleChange }) {
-  const state = useContext(GeoContext);
+  const [state] = useContext(GeoContext);
   console.log(state);
   return (
     <>
@@ -12,16 +12,16 @@ function CitySelect({ handleChange }) {
         name="city"
         className="form-control"
         onChange={(e) => handleChange(e)}
-        // value={state.data.city || ""}
+        value={state.data.city || ""}
       >
         <option key="0" value="">
           --Please choose a city--
         </option>
 
-        {/* {state.cities[0] !== undefined &&
-          state.cities[0].data.cities.map(({ name }) => (
+        {state.cities[0] !== undefined &&
+          state.cities[0].data.map(({ name }) => (
             <option value={name}>{name}</option>
-          ))} */}
+          ))}
       </select>
     </>
   );

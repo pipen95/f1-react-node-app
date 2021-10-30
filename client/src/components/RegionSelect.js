@@ -3,7 +3,6 @@ import GeoContext from "./GeoContext";
 
 function RegionSelect({ handleChange }) {
   const [state] = useContext(GeoContext);
-  console.log(state);
   return (
     <>
       <label htmlFor="region">Region</label>

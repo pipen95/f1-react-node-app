@@ -48,51 +48,16 @@ export const Form = ({ id, driver_name, closeModal }) => {
   const [submitting, setSubmitting] = useState(false);
   let _isMounted = useRef(true);
 
-  const { country, region, city, info_consent, name } = state.data;
+  const { country, region, info_consent, name } = state.data;
 
   useEffect(() => {
     const getCountries = async () => {
-      const res = await axios(
-        "https://countriesnow.space/api/v0.1/countries/flag/images"
-      );
-      if (res) {
-        getRegions();
-        return dispatch({ type: "GET_COUNTRIES", countries: res.data });
-      }
-    };
-    getCountries();
-
-    const getRegions = async () => {
-      if (country) {
-        let raw = { country: `${country}` };
-        const res = await axios.post(
-          "https://countriesnow.space/api/v0.1/countries/states",
-          raw
-        );
-        if (res) {
-          return dispatch({ type: "GET_REGIONS", regions: res.data });
-        }
-        if (region) {
-          return window.setTimeout(() => {
-            getCities();
-          }, 1000);
-        }
-      } else {
-        return window.setTimeout(() => {
-          getRegions();
-        }, 1000);
-      }
-    };
-
-    const getCities = async () => {
       try {
-        let raw = { country: `${country}`, state: `${region}` };
-        const res = await axios.post(
-          "https://countriesnow.space/api/v0.1/countries/state/cities",
-          raw
+        const res = await axios(
+          "https://countriesnow.space/api/v0.1/countries/flag/images"
         );
         if (res) {
-          return dispatch({ type: "GET_CITIES", citie: res.data });
+          return dispatch({ type: "GET_COUNTRIES", countries: res.data });
         }
       } catch (error) {
         console.log(error.name);
@@ -100,12 +65,64 @@ export const Form = ({ id, driver_name, closeModal }) => {
         console.log(error.stack);
       }
     };
+    getCountries();
 
     return () => {
       // ComponentWillUnmount in Class Component
       _isMounted.current = false;
     };
-  }, [country, region, city]);
+  }, []);
+
+  useEffect(() => {
+    if (country) {
+      const getRegions = async () => {
+        try {
+          let raw = { country: `${country}` };
+          const res = await axios.post(
+            "https://countriesnow.space/api/v0.1/countries/states",
+            raw
+          );
+          if (res) {
+            dispatch({ type: "GET_REGIONS", regions: res.data });
+          }
+        } catch (error) {
+          console.log(error.name);
+          console.log(error.message);
+          console.log(error.stack);
+        }
+      };
+      getRegions();
+    }
+
+    return () => {
+      // ComponentWillUnmount in Class Component
+      _isMounted.current = false;
+    };
+  }, [country]);
+
+  useEffect(() => {
+    if (country && region) {
+      const getCities = async () => {
+        try {
+          let raw = { country: `${country}`, state: `${region}` };
+          // var raw = '{\n    "country": "Nigeria",\n    "state": "Lagos"\n};
+          const res = await axios.post(
+            "https://countriesnow.space/api/v0.1/countries/state/cities",
+            raw
+          );
+          if (res) {
+            console.log(res);
+            return dispatch({ type: "GET_CITIES", cities: res.data });
+          }
+        } catch (error) {
+          console.log(error.name);
+          console.log(error.message);
+          console.log(error.stack);
+        }
+      };
+      getCities();
+    }
+  }, [country, region]);
 
   const postData = async (
     id,
