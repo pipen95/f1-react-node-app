@@ -2,24 +2,24 @@ import React, { useContext } from "react";
 import GeoContext from "./GeoContext";
 
 function CitySelect({ handleChange }) {
-  const [state] = useContext(GeoContext);
+  const state = useContext(GeoContext);
   console.log(state);
   return (
     <>
-      <label htmlFor="state">State</label>
+      <label htmlFor="city">City</label>
       <select
-        id="state"
-        name="state"
+        id="city"
+        name="city"
         className="form-control"
         onChange={(e) => handleChange(e)}
-        value={state.data.state || ""}
+        // value={state.data.city || ""}
       >
         <option key="0" value="">
-          --Please choose a state--
+          --Please choose a city--
         </option>
 
-        {/* {state.states[0] !== undefined &&
-          state.states[0].data.states.map(({ name }) => (
+        {/* {state.cities[0] !== undefined &&
+          state.cities[0].data.cities.map(({ name }) => (
             <option value={name}>{name}</option>
           ))} */}
       </select>

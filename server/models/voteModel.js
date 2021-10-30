@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const voteSchema = new mongoose.Schema({
   driverId: String,
   country: String,
+  region: String,
+  city: String,
   name: String,
   infoConsent: String,
   rating: Number,
