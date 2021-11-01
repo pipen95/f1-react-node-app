@@ -16,7 +16,7 @@ const GeoInitialeState = {
     city: "",
     name: "",
     info_consent: "no",
-    rating: 0,
+    rating: 1,
   },
 };
 
@@ -74,6 +74,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
   }, []);
 
   useEffect(() => {
+    _isMounted.current = true;
     if (country) {
       const getRegions = async () => {
         try {
@@ -83,7 +84,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
             raw
           );
           if (res) {
-            dispatch({ type: "GET_REGIONS", regions: res.data });
+            return dispatch({ type: "GET_REGIONS", regions: res.data });
           }
         } catch (error) {
           console.log(error.name);
@@ -105,13 +106,11 @@ export const Form = ({ id, driver_name, closeModal }) => {
       const getCities = async () => {
         try {
           let raw = { country: `${country}`, state: `${region}` };
-          // var raw = '{\n    "country": "Nigeria",\n    "state": "Lagos"\n};
           const res = await axios.post(
             "https://countriesnow.space/api/v0.1/countries/state/cities",
             raw
           );
           if (res) {
-            console.log(res);
             return dispatch({ type: "GET_CITIES", cities: res.data });
           }
         } catch (error) {
@@ -122,21 +121,26 @@ export const Form = ({ id, driver_name, closeModal }) => {
       };
       getCities();
     }
+
+    return () => {
+      // ComponentWillUnmount in Class Component
+      _isMounted.current = false;
+    };
   }, [country, region]);
 
   const postData = async (
     id,
-    { country, state, city, name, info_consent, rating },
+    { country, city, name, info_consent, rating, region },
     closeModal
   ) => {
     const payload = {
       driverId: id,
-      country: `${country !== undefined ? `${country}` : `na`}`,
-      region: `${region !== undefined ? `${region}` : `na`}`,
-      city: `${city !== undefined ? `${city}` : `na`}`,
-      name: `${name !== undefined ? `${name}` : `anonymous`}`,
-      infoConsent: `${info_consent !== undefined ? `${info_consent}` : `no`}`,
-      rating: `${rating !== undefined ? `${rating}` : `no rate`}`,
+      country: `${!country ? `` : `${country}`}`,
+      region: `${!region ? `` : `${region}`}`,
+      city: `${!city ? `` : `${city}`}`,
+      name: `${!name ? `` : `${name}`}`,
+      infoConsent: `${!info_consent ? `no` : `${info_consent}`}`,
+      rating: `${!rating ? 1 : rating}`,
     };
 
     try {
@@ -147,16 +151,15 @@ export const Form = ({ id, driver_name, closeModal }) => {
       if (_isMounted.current) {
         console.log(state);
         console.log(res);
-        dispatch({ type: "RESET" });
         setSubmitting(false);
-        if (res.status === 201 || 204) {
-          closeModal();
-        }
+        closeModal();
       } else {
         _isMounted = null;
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.name);
+      console.log(error.message);
+      console.log(error.stack);
     }
   };
 
@@ -164,6 +167,8 @@ export const Form = ({ id, driver_name, closeModal }) => {
     e.preventDefault();
     setSubmitting(true);
     postData(id, state.data, closeModal);
+    dispatch({ type: "RESET" });
+    console.log(state.data);
   };
 
   const handleChange = (event) => {
@@ -194,7 +199,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
             </fieldset>
             <hr className="hr" />
             <h3 className="text-center">
-              Can you share where you're voting from ?
+              Would you like to share where you're voting from ?
             </h3>
             <fieldset
               className="mt-4 mb-2 d-flex justify-content-center align-items-center"
@@ -219,6 +224,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
                   name="info_consent"
                   value="no"
                   id="no"
+                  checked
                 />
                 <label className="form-check-label" htmlFor="no">
                   No
@@ -250,7 +256,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
                   )}
                   {region && (
                     <fieldset className="form-group" disabled={submitting}>
-                      <CitySelect />
+                      <CitySelect handleChange={handleChange} />
                     </fieldset>
                   )}
                 </GeoContext.Provider>

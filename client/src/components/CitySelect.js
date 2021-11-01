@@ -3,7 +3,11 @@ import GeoContext from "./GeoContext";
 
 function CitySelect({ handleChange }) {
   const [state] = useContext(GeoContext);
-  console.log(state);
+
+  if (state.cities[0] === undefined) {
+    return null;
+  }
+
   return (
     <>
       <label htmlFor="city">City</label>
@@ -18,9 +22,9 @@ function CitySelect({ handleChange }) {
           --Please choose a city--
         </option>
 
-        {state.cities[0] !== undefined &&
-          state.cities[0].data.map(({ name }) => (
-            <option value={name}>{name}</option>
+        {state.cities[0].data.lenght !== 0 &&
+          state.cities[0].data.map((city) => (
+            <option value={city}>{city}</option>
           ))}
       </select>
     </>

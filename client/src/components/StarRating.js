@@ -16,7 +16,7 @@ export const StarRating = ({ handleChange }) => {
               type="radio"
               name="rating"
               className="star_input"
-              value={ratingValue}
+              value={!ratingValue ? 0 : ratingValue}
               onClick={(e) => {
                 setRating(ratingValue);
                 return handleChange(e);
