@@ -16,7 +16,7 @@ const GeoInitialeState = {
     city: "",
     name: "",
     info_consent: "no",
-    rating: 1,
+    rating: 0,
   },
 };
 
