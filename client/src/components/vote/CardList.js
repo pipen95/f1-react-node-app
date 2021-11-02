@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import { fetchDrivers } from './redux/actions/fetchDrivers';
-import { fetchStats } from "./redux/actions/fetchStats";
-import CardItem from "../components/CardItem";
+import { fetchStats } from "../redux/actions/fetchStats";
+import CardItem from "./CardItem";
 
 class CardList extends Component {
   constructor(props) {

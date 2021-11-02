@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-// import { connect } from "react-redux";
-// import { addVote } from "./redux/actions/fetchDrivers";
 import { Card, Badge } from "react-bootstrap";
 import ReactCardFlip from "react-card-flip";
-import data from "../data/data.json";
+import data from "../../data/data.json";
 import { Container } from "./Container";
 class CardItem extends Component {
   constructor(props) {
