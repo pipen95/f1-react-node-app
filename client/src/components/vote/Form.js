@@ -11,9 +11,17 @@ const GeoInitialeState = {
   regions: [],
   cities: [],
   data: {
-    country: "",
-    region: "",
-    city: "",
+    country: {
+      name: "",
+      iso2: "",
+    },
+    region: {
+      name: "",
+      iso2: "",
+    },
+    city: {
+      name: "",
+    },
     name: "",
     info_consent: "no",
     rating: 0,
@@ -35,6 +43,19 @@ const GeoReducer = (state, action) => {
         data: { ...state.data, [action.data.name]: action.data.value },
       };
 
+    case "ADD_ADRESS_DATA":
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          [action.data.type]: {
+            ...state.data[action.data.type],
+            name: action.data.name,
+            iso2: action.data.iso2,
+          },
+        },
+      };
+
     case "RESET":
       return GeoInitialeState;
 
@@ -49,12 +70,18 @@ export const Form = ({ id, driver_name, closeModal }) => {
   let _isMounted = useRef(true);
 
   const { country, region, info_consent, name } = state.data;
+  const country_iso = state.data.country.iso2;
+  const region_iso = state.data.region.iso2;
 
   useEffect(() => {
     const getCountries = async () => {
+      const options = {
+        headers: { "X-CSCAPI-KEY": process.env.REACT_APP_COUNTRY_API_KEY },
+      };
       try {
         const res = await axios(
-          "https://countriesnow.space/api/v0.1/countries/flag/images"
+          " https://api.countrystatecity.in/v1/countries",
+          options
         );
         if (res) {
           return dispatch({ type: "GET_COUNTRIES", countries: res.data });
@@ -75,13 +102,15 @@ export const Form = ({ id, driver_name, closeModal }) => {
 
   useEffect(() => {
     _isMounted.current = true;
-    if (country) {
+    if (country_iso) {
       const getRegions = async () => {
+        const options = {
+          headers: { "X-CSCAPI-KEY": process.env.REACT_APP_COUNTRY_API_KEY },
+        };
         try {
-          let raw = { country: `${country}` };
-          const res = await axios.post(
-            "https://countriesnow.space/api/v0.1/countries/states",
-            raw
+          const res = await axios(
+            `https://api.countrystatecity.in/v1/countries/${country_iso}/states`,
+            options
           );
           if (res) {
             return dispatch({ type: "GET_REGIONS", regions: res.data });
@@ -99,16 +128,18 @@ export const Form = ({ id, driver_name, closeModal }) => {
       // ComponentWillUnmount in Class Component
       _isMounted.current = false;
     };
-  }, [country]);
+  }, [country_iso]);
 
   useEffect(() => {
-    if (country && region) {
+    if (country_iso && region_iso) {
       const getCities = async () => {
         try {
-          let raw = { country: `${country}`, state: `${region}` };
-          const res = await axios.post(
-            "https://countriesnow.space/api/v0.1/countries/state/cities",
-            raw
+          const options = {
+            headers: { "X-CSCAPI-KEY": process.env.REACT_APP_COUNTRY_API_KEY },
+          };
+          const res = await axios(
+            `https://api.countrystatecity.in/v1/countries/${country_iso}/states/${region_iso}/cities`,
+            options
           );
           if (res) {
             return dispatch({ type: "GET_CITIES", cities: res.data });
@@ -126,7 +157,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
       // ComponentWillUnmount in Class Component
       _isMounted.current = false;
     };
-  }, [country, region]);
+  }, [country_iso, region_iso]);
 
   const postData = async (
     id,
@@ -181,6 +212,17 @@ export const Form = ({ id, driver_name, closeModal }) => {
     });
   };
 
+  const handleAdressChange = (event) => {
+    dispatch({
+      type: "ADD_ADRESS_DATA",
+      data: {
+        type: event.target.name,
+        name: event.target.value,
+        iso2: event.target[event.target.selectedIndex].id,
+      },
+    });
+  };
+
   return (
     <div>
       {submitting ? (
@@ -190,7 +232,9 @@ export const Form = ({ id, driver_name, closeModal }) => {
       ) : (
         <>
           <form onSubmit={handleSubmit}>
-            <h2 className="text-center">How much do you rate {driver_name}?</h2>
+            <h2 className="text-center">
+              What rate do you give {driver_name}?
+            </h2>
 
             <fieldset className="form-group" disabled={submitting}>
               <div className="d-flex justify-content-center align-items-center">
@@ -224,7 +268,6 @@ export const Form = ({ id, driver_name, closeModal }) => {
                   name="info_consent"
                   value="no"
                   id="no"
-                  checked
                 />
                 <label className="form-check-label" htmlFor="no">
                   No
@@ -247,16 +290,16 @@ export const Form = ({ id, driver_name, closeModal }) => {
 
                 <GeoContext.Provider value={[state]}>
                   <fieldset className="form-group" disabled={submitting}>
-                    <CountrySelect handleChange={handleChange} />
+                    <CountrySelect handleAdressChange={handleAdressChange} />
                   </fieldset>
                   {country && (
                     <fieldset className="form-group" disabled={submitting}>
-                      <RegionSelect handleChange={handleChange} />
+                      <RegionSelect handleAdressChange={handleAdressChange} />
                     </fieldset>
                   )}
                   {region && (
                     <fieldset className="form-group" disabled={submitting}>
-                      <CitySelect handleChange={handleChange} />
+                      <CitySelect handleAdressChange={handleAdressChange} />
                     </fieldset>
                   )}
                 </GeoContext.Provider>

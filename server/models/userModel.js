@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-// const User = require("./userModel");
+const User = require("./userModel");
 // const validator = require("validator");
 
-const voteSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   driverId: String,
   country: String,
   region: String,
@@ -19,3 +19,5 @@ const voteSchema = new mongoose.Schema({
 const Vote = mongoose.model("Vote", voteSchema);
 
 module.exports = Vote;
+
+db.zips.updateOn({ zip: "12534" }, { $set: { pop: 17630 } });

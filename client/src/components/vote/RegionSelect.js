@@ -1,25 +1,25 @@
 import React, { useContext } from "react";
 import GeoContext from "./GeoContext";
 
-function RegionSelect({ handleChange }) {
+function RegionSelect({ handleAdressChange }) {
   const [state] = useContext(GeoContext);
   return (
     <>
       <label htmlFor="region">Region</label>
       <select
-        id="region"
         name="region"
         className="form-control"
-        onChange={(e) => handleChange(e)}
-        value={state.data.region || ""}
+        onChange={(e) => handleAdressChange(e)}
       >
         <option key="0" value="">
           --Please choose a state--
         </option>
 
         {state.regions[0] !== undefined &&
-          state.regions[0].data.states.map(({ name }) => (
-            <option value={name}>{name}</option>
+          state.regions[0].map(({ name, iso2 }) => (
+            <option value={name} key={iso2} id={iso2}>
+              {name}
+            </option>
           ))}
       </select>
     </>
