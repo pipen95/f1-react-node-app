@@ -3,17 +3,40 @@ const mongoose = require("mongoose");
 // const validator = require("validator");
 
 const voteSchema = new mongoose.Schema({
+  name: String,
   driverId: String,
-  country: String,
-  region: String,
-  city: String,
   infoConsent: String,
   rating: Number,
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: [true, "A vote must belong to a user"],
+  country: {
+    // GeoJSON
+    type: {
+      type: String,
+      default: "Point",
+      enum: ["Point"],
+    },
+    coordinates: {
+      type: [Number],
+      default: [0, 0],
+    },
+    name: String,
+    iso: String,
   },
+  region: {
+    // GeoJSON
+    type: {
+      type: String,
+      default: "Point",
+      enum: ["Point"],
+    },
+    coordinates: {
+      type: [Number],
+      default: [0, 0],
+    },
+    name: String,
+    iso: String,
+  },
+
+  city: String,
 });
 
 const Vote = mongoose.model("Vote", voteSchema);
