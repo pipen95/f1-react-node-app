@@ -60,6 +60,17 @@ const GeoReducer = (state, action) => {
             ...state.data[action.data.type],
             name: action.data.name,
             iso: action.data.iso,
+          },
+        },
+      };
+
+    case "ADD_GEO_DATA":
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          [action.data.type]: {
+            ...state.data[action.data.type],
             geo_lat: action.data.geo_lat,
             geo_long: action.data.geo_long,
           },
@@ -83,22 +94,15 @@ export const Form = ({ id, driver_name, closeModal }) => {
 
   // DATA VARIABLES
   // General data
-  const { info_consent, name, rating } = state.data;
-
-  // City variables
-  const city_name = state.data.city.name;
+  const { info_consent, name } = state.data;
 
   // Country variables
   const country_name = state.data.country.name;
   const country_iso = state.data.country.iso;
-  const country_geo_lat = state.data.country.geo_lat;
-  const country_geo_long = state.data.country.geo_long;
 
   // Region variables
   const region_name = state.data.region.name;
   const region_iso = state.data.region.iso;
-  const region_geo_lat = state.data.region.geo_lat;
-  const region_geo_long = state.data.region.geo_long;
 
   // API CALLS
 
@@ -132,7 +136,6 @@ export const Form = ({ id, driver_name, closeModal }) => {
 
   // GET REGIONS
   useEffect(() => {
-    _isMounted.current = true;
     if (country_iso) {
       const getRegions = async () => {
         const options = {
@@ -178,7 +181,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
 
           if (res) {
             return dispatch({
-              type: "ADD_ADRESS_DATA",
+              type: "ADD_GEO_DATA",
               data: {
                 type: "country",
                 geo_lat: res.data.latitude,
@@ -208,7 +211,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
 
           if (res) {
             return dispatch({
-              type: "ADD_ADRESS_DATA",
+              type: "ADD_GEO_DATA",
               data: {
                 type: "region",
                 geo_lat: res.data.latitude,
@@ -254,23 +257,23 @@ export const Form = ({ id, driver_name, closeModal }) => {
   }, [country_iso, region_iso]);
 
   // SUBMIT POST REQUEST
-  const postData = async (id, closeModal) => {
+  const postData = async (id, state, closeModal) => {
     const payload = {
       driverId: id,
       country: {
-        coordinates: [country_geo_lat, country_geo_long],
-        name: `${!country_name ? `` : `${country_name}`}`,
-        iso: `${!country_iso ? `` : `${country_iso}`}`,
+        coordinates: [state.country.geo_lat, state.country.geo_long],
+        name: `${!state.country.name ? `` : `${state.country.name}`}`,
+        iso: `${!state.country.iso ? `` : `${state.country.iso}`}`,
       },
       region: {
-        coordinates: [region_geo_lat, region_geo_long],
-        name: `${!region_name ? `` : `${region_name}`}`,
-        iso: `${!region_iso ? `` : `${region_iso}`}`,
+        coordinates: [state.region.geo_lat, state.region.geo_long],
+        name: `${!state.region.name ? `` : `${state.region.name}`}`,
+        iso: `${!state.region.iso ? `` : `${state.region.iso}`}`,
       },
-      city: `${!city_name ? `` : `${city_name}`}`,
-      name: `${!name ? `` : `${name}`}`,
-      infoConsent: `${!info_consent ? `no` : `${info_consent}`}`,
-      rating: `${!rating ? 1 : rating}`,
+      city: `${!state.city.name ? `` : `${state.city.name}`}`,
+      name: `${!state.name ? `` : `${state.name}`}`,
+      infoConsent: `${!state.info_consent ? `no` : `${state.info_consent}`}`,
+      rating: `${!state.rating ? 1 : state.rating}`,
     };
 
     try {
@@ -311,6 +314,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
         value: event.target.value,
       },
     });
+    console.log(state);
   };
 
   const handleAdressChange = (event) => {
@@ -322,6 +326,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
         iso: event.target[event.target.selectedIndex].id,
       },
     });
+    console.log(state);
   };
 
   // JSX FORM
