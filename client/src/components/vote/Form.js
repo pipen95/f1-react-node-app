@@ -202,7 +202,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
       // ComponentWillUnmount in Class Component
       _isMounted.current = false;
     };
-  }, [region_iso]);
+  }, [country_iso]);
 
   useEffect(() => {
     if (region_iso) {
@@ -239,7 +239,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
       // ComponentWillUnmount in Class Component
       _isMounted.current = false;
     };
-  }, [region_iso]);
+  }, [country_iso, region_iso]);
 
   useEffect(() => {
     if (country_iso && region_iso) {
@@ -295,9 +295,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
         "http://localhost:3001/api/v1/votes",
         payload
       );
-      if (_isMounted.current) {
-        console.log(state);
-        console.log(res);
+      if (_isMounted.current && res) {
         setSubmitting(false);
         closeModal();
       } else {
