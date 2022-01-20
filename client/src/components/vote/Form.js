@@ -20,7 +20,7 @@ const GeoInitialeState = {
       geo_long: "",
     },
     region: {
-      _name: "",
+      name: "",
       iso: "",
       geo_lat: "",
       geo_long: "",
@@ -198,6 +198,13 @@ export const Form = ({ id, driver_name, closeModal }) => {
       getCountryLocation();
     }
 
+    return () => {
+      // ComponentWillUnmount in Class Component
+      _isMounted.current = false;
+    };
+  }, [region_iso]);
+
+  useEffect(() => {
     if (region_iso) {
       const getRegionLocation = async () => {
         try {
@@ -228,6 +235,13 @@ export const Form = ({ id, driver_name, closeModal }) => {
       getRegionLocation();
     }
 
+    return () => {
+      // ComponentWillUnmount in Class Component
+      _isMounted.current = false;
+    };
+  }, [region_iso]);
+
+  useEffect(() => {
     if (country_iso && region_iso) {
       const getCities = async () => {
         try {
