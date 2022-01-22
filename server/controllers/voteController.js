@@ -42,3 +42,21 @@ exports.createVote = async (req, res) => {
     });
   }
 };
+
+exports.getAllVotes = async (req, res) => {
+  try {
+    const votes = await Vote.find(req);
+    res.status(200).json({
+      status: "success",
+      results: votes.length,
+      data: {
+        votes,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: "fail",
+      mesage: error,
+    });
+  }
+};

@@ -316,3 +316,11 @@ label > input[type="radio"] {
   margin: 12px;
   border-radius: 4px;
 }
+
+.marker {
+  background-image: url("../img/pin.png");
+  background-size: cover;
+  width: 32px;
+  height: 40px;
+  cursor: pointer;
+}

@@ -275,12 +275,12 @@ export const Form = ({ id, driver_name, closeModal }) => {
     const payload = {
       driverId: id,
       country: {
-        coordinates: [state.country.geo_lat, state.country.geo_long],
+        coordinates: [state.country.geo_long, state.country.geo_lat],
         name: `${!state.country.name ? `` : `${state.country.name}`}`,
         iso: `${!state.country.iso ? `` : `${state.country.iso}`}`,
       },
       region: {
-        coordinates: [state.region.geo_lat, state.region.geo_long],
+        coordinates: [state.region.geo_long, state.region.geo_lat],
         name: `${!state.region.name ? `` : `${state.region.name}`}`,
         iso: `${!state.region.iso ? `` : `${state.region.iso}`}`,
       },

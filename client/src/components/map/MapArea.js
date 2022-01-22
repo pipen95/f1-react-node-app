@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import axios from "axios";
 import mapboxgl from "mapbox-gl";
 mapboxgl.accessToken =
   "pk.eyJ1IjoicGllcnJlOTUxNzAiLCJhIjoiY2toMWNtMXM5MDBzazM0bzVtcWk5YTN0OCJ9.1piZsy79X9rKgXGywRU9bQ";
@@ -6,9 +7,38 @@ mapboxgl.accessToken =
 function MapArea() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(9);
+  let _isMounted = useRef(true);
+  const [lng, setLng] = useState(22.6);
+  const [lat, setLat] = useState(26.8);
+  const [zoom, setZoom] = useState(1);
+  const [votes, setVotes] = useState(null);
+
+  // GET LOCATIONS
+  useEffect(() => {
+    if (_isMounted.current) {
+      const getLocations = async () => {
+        try {
+          const res = await axios("http://localhost:3001/api/v1/votes");
+          if (res) {
+            return setVotes(res.data);
+          }
+        } catch (error) {
+          console.log(error.name);
+          console.log(error.message);
+          console.log(error.stack);
+        }
+      };
+      getLocations();
+    }
+    if (votes) {
+      console.log(votes.data.votes[0]);
+    }
+
+    return () => {
+      // ComponentWillUnmount in Class Component
+      _isMounted.current = false;
+    };
+  });
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -30,11 +60,12 @@ function MapArea() {
   });
 
   return (
-    <div>
-      <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+    <div className="mt-3">
+      <div ref={mapContainer} className="map-container">
+        <div className="sidebar">
+          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+        </div>
       </div>
-      <div className="mt-5" ref={mapContainer} className="map-container" />
     </div>
   );
 }
