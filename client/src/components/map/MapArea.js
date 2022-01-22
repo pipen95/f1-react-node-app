@@ -31,7 +31,7 @@ function MapArea() {
       getLocations();
     }
     if (votes) {
-      console.log(votes.data.votes[0]);
+      console.log(votes.data);
     }
 
     return () => {
