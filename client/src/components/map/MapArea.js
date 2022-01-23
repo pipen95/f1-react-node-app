@@ -1,17 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
-mapboxgl.accessToken =
-  "pk.eyJ1IjoicGllcnJlOTUxNzAiLCJhIjoiY2toMWNtMXM5MDBzazM0bzVtcWk5YTN0OCJ9.1piZsy79X9rKgXGywRU9bQ";
 
 function MapArea() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  let _isMounted = useRef(true);
-  const [lng, setLng] = useState(22.6);
-  const [lat, setLat] = useState(26.8);
-  const [zoom, setZoom] = useState(1);
+  const bounds = useRef(null);
   const [votes, setVotes] = useState(null);
+  let _isMounted = useRef(true);
 
   // GET LOCATIONS
   useEffect(() => {
@@ -20,7 +16,7 @@ function MapArea() {
         try {
           const res = await axios("http://localhost:3001/api/v1/votes");
           if (res) {
-            return setVotes(res.data);
+            return setVotes(res.data.data.votes);
           }
         } catch (error) {
           console.log(error.name);
@@ -30,9 +26,6 @@ function MapArea() {
       };
       getLocations();
     }
-    if (votes) {
-      console.log(votes.data);
-    }
 
     return () => {
       // ComponentWillUnmount in Class Component
@@ -41,31 +34,56 @@ function MapArea() {
   });
 
   useEffect(() => {
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/navigation-night-v1",
-      center: [lng, lat],
-      zoom: zoom,
-    });
-  });
+    // initialize map when votes are fetched
+    if (votes) {
+      try {
+        map.current = new mapboxgl.Map({
+          container: mapContainer.current,
+          style: "mapbox://styles/mapbox/navigation-night-v1",
+          accessToken:
+            "pk.eyJ1IjoicGllcnJlOTUxNzAiLCJhIjoiY2toMWNtMXM5MDBzazM0bzVtcWk5YTN0OCJ9.1piZsy79X9rKgXGywRU9bQ",
+        });
 
-  useEffect(() => {
-    if (!map.current) return; // wait for map to initialize
-    map.current.on("move", () => {
-      setLng(map.current.getCenter().lng.toFixed(4));
-      setLat(map.current.getCenter().lat.toFixed(4));
-      setZoom(map.current.getZoom().toFixed(2));
-    });
-  });
+        bounds.current = new mapboxgl.LngLatBounds();
+
+        const addPoints = (votes) => {
+          votes.forEach((vote) => {
+            new mapboxgl.Marker()
+              .setLngLat([
+                vote.country.coordinates[0],
+                vote.country.coordinates[1],
+              ])
+              .addTo(map.current);
+            // console.log([
+            //   vote.country.coordinates[0],
+            //   vote.country.coordinates[1],
+            // ]);
+            bounds.current.extend([
+              vote.country.coordinates[0],
+              vote.country.coordinates[1],
+            ]);
+          });
+        };
+        addPoints(votes);
+        map.current.fitBounds(bounds.current, {
+          padding: {
+            top: 100,
+            bottom: 100,
+            left: 50,
+            right: 50,
+          },
+        });
+      } catch (error) {
+        console.log(error.name);
+        console.log(error.message);
+        console.log(error.stack);
+      }
+    }
+  }, [votes]);
 
   return (
     <div className="mt-3">
-      <div ref={mapContainer} className="map-container">
-        <div className="sidebar">
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-      </div>
+      <div ref={mapContainer} className="map-container"></div>
     </div>
   );
 }
