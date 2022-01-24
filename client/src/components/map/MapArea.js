@@ -53,11 +53,13 @@ function MapArea() {
                 vote.country.coordinates[0],
                 vote.country.coordinates[1],
               ])
+              .setPopup(
+                new mapboxgl.Popup({ offset: 25 }).setHTML(
+                  `<p>Hello ${vote.name} from ${vote.country.name}</p>`
+                )
+              ) // add popup
               .addTo(map.current);
-            // console.log([
-            //   vote.country.coordinates[0],
-            //   vote.country.coordinates[1],
-            // ]);
+
             bounds.current.extend([
               vote.country.coordinates[0],
               vote.country.coordinates[1],
@@ -73,6 +75,8 @@ function MapArea() {
             right: 50,
           },
         });
+
+        map.current.addControl(new mapboxgl.NavigationControl());
       } catch (error) {
         console.log(error.name);
         console.log(error.message);
