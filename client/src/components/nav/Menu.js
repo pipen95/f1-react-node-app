@@ -7,8 +7,11 @@ const Menu = () => {
       <Navbar bg="dark" variant="dark" fixed="top" className="">
         <Container className="justify-content-start">
           <Navbar.Brand href="/" className="ml-5">
-            Fast Fans
+            Home
           </Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="/results">Results</Nav.Link>
+          </Nav>
           <Nav className="me-auto">
             <Nav.Link href="/vote">Vote</Nav.Link>
           </Nav>

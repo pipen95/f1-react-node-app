@@ -1,13 +1,13 @@
 import React from "react";
 import { Container, Jumbotron } from "react-bootstrap";
-function Leaderboard() {
+function Results() {
   return (
     <div>
       <Container>
         <Jumbotron className="shadow">
           <Jumbotron className="bg-dark">
-            <h1 className="header text-center color-white text-white mb-0">
-              F1 driver leaderboard
+            <h1 className="header text-center color-white text-white mb-2">
+              F1 driver live results / F1 fans leaderboard
             </h1>
           </Jumbotron>
         </Jumbotron>
@@ -16,4 +16,4 @@ function Leaderboard() {
   );
 }
 
-export default Leaderboard;
+export default Results;
