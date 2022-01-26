@@ -5,19 +5,30 @@ const Menu = () => {
   return (
     <>
       <Navbar bg="dark" variant="dark" fixed="top" className="">
-        <Container className="justify-content-start">
-          <Navbar.Brand href="/" className="ml-5">
-            Home
-          </Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="/results">Results</Nav.Link>
-          </Nav>
-          <Nav className="me-auto">
-            <Nav.Link href="/vote">Vote</Nav.Link>
-          </Nav>
-          <Nav className="me-auto">
-            <Nav.Link href="/map">Map</Nav.Link>
-          </Nav>
+        <Container>
+          <Container
+            className="justify-content-start flex-nowrap"
+            style={{ marginLeft: "2.4vw" }}
+          >
+            <Navbar.Brand href="/">Home</Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link href="/results">Results</Nav.Link>
+            </Nav>
+            <Nav className="me-auto">
+              <Nav.Link href="/vote">Vote</Nav.Link>
+            </Nav>
+            <Nav className="me-auto">
+              <Nav.Link href="/map">Map</Nav.Link>
+            </Nav>
+          </Container>
+          <Container
+            className="justify-content-end flex-nowrap"
+            style={{ marginRight: "2.3vw" }}
+          >
+            <Nav className="me-auto">
+              <Nav.Link href="#">Login</Nav.Link>
+            </Nav>
+          </Container>
         </Container>
       </Navbar>
     </>

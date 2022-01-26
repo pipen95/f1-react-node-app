@@ -8,7 +8,7 @@ function Map() {
         <Jumbotron className="shadow">
           <Jumbotron className="bg-dark">
             <h1 className="header text-center color-white text-white mb-0">
-              Where are F1 fans voting from ?
+              F1 fans from around the word
             </h1>
             <MapArea />
           </Jumbotron>

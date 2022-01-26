@@ -15,14 +15,18 @@ function Home() {
             </p>
 
             <div className="text-center">
-              <Button variant="primary mr-3" size="lg" href="/vote">
-                Rate some drivers
+              <Button variant="primary mr-3 mb-3" size="lg" href="/vote">
+                Rate drivers
               </Button>
-              <Button variant="outline-success mr-3" size="lg" href="/results">
-                Check Live Results
+              <Button
+                variant="outline-success mr-3 mb-3"
+                size="lg"
+                href="/results"
+              >
+                Check Live Leaderboard
               </Button>
-              <Button variant="outline-warning" size="lg" href="/map">
-                View fans around the world
+              <Button variant="outline-warning mb-3" size="lg" href="/map">
+                View fans world map
               </Button>
             </div>
           </Jumbotron>

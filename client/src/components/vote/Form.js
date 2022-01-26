@@ -355,7 +355,6 @@ export const Form = ({ id, driver_name, closeModal }) => {
             <h2 className="text-center">
               What rate do you give {driver_name}?
             </h2>
-
             <fieldset className="form-group" disabled={submitting}>
               <div className="d-flex justify-content-center align-items-center">
                 <StarRating handleChange={handleChange} />
@@ -363,8 +362,19 @@ export const Form = ({ id, driver_name, closeModal }) => {
             </fieldset>
             <hr className="hr" />
             <h3 className="text-center">
-              Would you like to share where you're voting from ?
+              Would you like to share a nice message to
             </h3>
+            <fieldset className="form-group" disabled={submitting}>
+              <textarea
+                value={this.state.textAreaValue}
+                onChange={handleChange}
+              />
+            </fieldset>
+            <hr className="hr" />
+            <h3 className="text-center">
+              Would you like to tell us where you are from ?
+            </h3>
+            fiesl
             <fieldset
               className="mt-4 mb-2 d-flex justify-content-center align-items-center"
               disabled={submitting}
@@ -394,7 +404,6 @@ export const Form = ({ id, driver_name, closeModal }) => {
                 </label>
               </div>
             </fieldset>
-
             {info_consent === "yes" && (
               <div>
                 <fieldset className="form-group" disabled={submitting}>
@@ -425,7 +434,6 @@ export const Form = ({ id, driver_name, closeModal }) => {
                 </GeoContext.Provider>
               </div>
             )}
-
             <div className="form-group">
               <button
                 className="form-control btn btn-primary"
