@@ -31,6 +31,7 @@ const GeoInitialeState = {
     name: "",
     info_consent: "no",
     rating: 0,
+    message: "",
   },
 };
 
@@ -94,7 +95,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
 
   // DATA VARIABLES
   // General data
-  const { info_consent, name } = state.data;
+  const { info_consent, name, message } = state.data;
 
   // Country variables
   const country_name = state.data.country.name;
@@ -288,6 +289,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
       name: `${!state.name ? `` : `${state.name}`}`,
       infoConsent: `${!state.info_consent ? `no` : `${state.info_consent}`}`,
       rating: `${!state.rating ? 1 : state.rating}`,
+      message: `${state.message}`,
     };
 
     try {
@@ -365,10 +367,7 @@ export const Form = ({ id, driver_name, closeModal }) => {
               Would you like to share a nice message to
             </h3>
             <fieldset className="form-group" disabled={submitting}>
-              <textarea
-                value={this.state.textAreaValue}
-                onChange={handleChange}
-              />
+              <textarea value={message} onChange={handleChange} />
             </fieldset>
             <hr className="hr" />
             <h3 className="text-center">

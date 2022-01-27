@@ -34,6 +34,7 @@ const voteSchema = new mongoose.Schema({
     },
     name: String,
     iso: String,
+    message: String,
   },
 
   city: String,

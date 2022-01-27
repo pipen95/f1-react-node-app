@@ -11,7 +11,7 @@ function Home() {
             </h1>
 
             <p className="color-white text-white text-center mb-4">
-              A place for f1 fans to rate drivers, place bets and more!
+              A place for the f1 community to rate drivers, place bets and more!
             </p>
 
             <div className="text-center">
