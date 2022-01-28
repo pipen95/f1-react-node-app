@@ -363,17 +363,10 @@ export const Form = ({ id, driver_name, closeModal }) => {
               </div>
             </fieldset>
             <hr className="hr" />
+
             <h3 className="text-center">
-              Would you like to share a nice message to
+              Would you like to share where you are from ?
             </h3>
-            <fieldset className="form-group" disabled={submitting}>
-              <textarea value={message} onChange={handleChange} />
-            </fieldset>
-            <hr className="hr" />
-            <h3 className="text-center">
-              Would you like to tell us where you are from ?
-            </h3>
-            fiesl
             <fieldset
               className="mt-4 mb-2 d-flex justify-content-center align-items-center"
               disabled={submitting}
@@ -408,12 +401,29 @@ export const Form = ({ id, driver_name, closeModal }) => {
                 <fieldset className="form-group" disabled={submitting}>
                   <label htmlFor="name">Name</label>
                   <input
+                    type="text"
                     id="name"
                     className="form-control"
                     name="name"
                     onChange={handleChange}
                     value={name || ""}
                   />
+                </fieldset>
+
+                <fieldset className="form-group" disabled={submitting}>
+                  <label htmlFor="message">
+                    Share a nice message with the Bistrot F1 community !
+                  </label>
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    placeholder="Leave a message here (50 words max)"
+                    id="message"
+                    // style={{ height: "100" }}
+                    value={message || ""}
+                    maxLength="50"
+                    onChange={(e) => handleChange(e.target.value)}
+                  ></textarea>
                 </fieldset>
 
                 <GeoContext.Provider value={[state]}>

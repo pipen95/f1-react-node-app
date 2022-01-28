@@ -7,6 +7,7 @@ const voteSchema = new mongoose.Schema({
   driverId: String,
   infoConsent: String,
   rating: Number,
+  message: String,
   country: {
     // GeoJSON
     type: {
@@ -34,7 +35,6 @@ const voteSchema = new mongoose.Schema({
     },
     name: String,
     iso: String,
-    message: String,
   },
 
   city: String,
