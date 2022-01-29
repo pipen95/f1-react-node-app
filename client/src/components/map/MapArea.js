@@ -54,8 +54,10 @@ function MapArea() {
                 vote.country.coordinates[1],
               ])
               .setPopup(
-                new mapboxgl.Popup({ offset: 25 }).setHTML(
-                  `<p>Hello ${vote.name} from ${vote.country.name}</p>`
+                new mapboxgl.Popup({ offset: 30 }).setHTML(
+                  `<p>${vote.name} from ${vote.country.name} says: ${
+                    !vote.message ? `Hi!` : `${vote.message}`
+                  }</p>`
                 )
               ) // add popup
               .addTo(map.current);
