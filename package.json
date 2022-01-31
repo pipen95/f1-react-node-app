@@ -27,7 +27,7 @@
     "multer": "^1.4.3",
     "nodemon": "^2.0.13",
     "use-state-if-mounted": "^1.0.4",
-    "validator": "^13.6.0",
+    "validator": "^13.7.0",
     "xss-clean": "^0.1.1"
   }
 }
