@@ -22,13 +22,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a password'],
     minlength: 8,
+    select: false,
   },
   passwordConfirm: {
     type: String,
     required: [true, 'Please provide a password'],
     validate: {
       // This only works on CREATE and SAVE
-      validator: function (el) {
+      validator(el) {
         return el === this.password;
       },
       message: 'Passwords are not the same',
@@ -48,6 +49,14 @@ userSchema.pre('save', async function (next) {
 
   next();
 });
+
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  // eslint-disable-next-line no-return-await
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model('User', userSchema);
 

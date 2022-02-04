@@ -1,11 +1,13 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const AppError = require('./appError');
 const voteRouter = require('./routes/voteRoutes');
 const userRouter = require('./routes/userRoutes');
+
 const app = express();
-const cors = require('cors');
+
 // GLOBAL MIDDLEWARES
 
 // Serving static files
