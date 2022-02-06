@@ -1,6 +1,7 @@
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
-const AppError = require('../appError');
+const AppError = require('../utils/appError');
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -54,6 +55,36 @@ exports.login = async (req, res, next) => {
       status: 'success',
       token,
     });
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: error,
+    });
+  }
+};
+
+exports.protect = async (req, res, next) => {
+  try {
+    // 1) Getting token and check if it's there
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      // eslint-disable-next-line prefer-destructuring
+      token = req.headears.authorization.split(' ')[1];
+    }
+
+    if (!token) {
+      return next(new AppError('Please login to get access', 401));
+    }
+    // 2) Validate the token
+    const decoded = await promisify(jwt.verify(token, process.env.JWT_SECRET));
+    console.log(decoded);
+    // 3) Check if user still exists
+
+    // 4) Check if user changed password after the token was issued
+    next();
   } catch (error) {
     res.status(404).json({
       status: 'fail',

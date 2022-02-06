@@ -28,6 +28,9 @@ const Menu = () => {
             <Nav className="me-auto">
               <Nav.Link href="#">Login</Nav.Link>
             </Nav>
+            <Nav className="me-auto">
+              <Nav.Link href="#">Sign up</Nav.Link>
+            </Nav>
           </Container>
         </Container>
       </Navbar>
