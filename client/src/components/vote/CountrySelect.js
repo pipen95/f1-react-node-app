@@ -9,8 +9,7 @@ function CountrySelect({ handleAdressChange }) {
       <select
         name="country"
         className="form-control"
-        onChange={(e) => handleAdressChange(e)}
-        // value={state.data.country || ""}
+        onChange={handleAdressChange}
       >
         <option key="0" value="">
           --Please choose an country--

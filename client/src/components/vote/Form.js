@@ -420,7 +420,6 @@ export const Form = ({ id, driver_name, closeModal }) => {
                     className="form-control"
                     placeholder="Leave a message here (50 words max)"
                     id="message"
-                    // style={{ height: "100" }}
                     value={message || ""}
                     maxLength="50"
                     onChange={handleChange}

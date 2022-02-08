@@ -14,7 +14,7 @@ function CitySelect({ handleAdressChange }) {
       <select
         name="city"
         className="form-control"
-        onChange={(e) => handleAdressChange(e)}
+        onChange={handleAdressChange}
       >
         <option key="0" value="">
           --Please choose a city--

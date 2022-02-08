@@ -9,7 +9,7 @@ function RegionSelect({ handleAdressChange }) {
       <select
         name="region"
         className="form-control"
-        onChange={(e) => handleAdressChange(e)}
+        onChange={handleAdressChange}
       >
         <option key="0" value="">
           --Please choose a state--
