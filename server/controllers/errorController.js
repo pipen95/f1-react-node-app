@@ -36,6 +36,7 @@ const sendErrorDev = (err, req, res) => {
       stack: err.stack,
     });
   }
+
   // RENDERED WEBSITE
   console.error('ERROR 💥', err);
   return res
@@ -65,7 +66,7 @@ const sendErrorProd = (err, req, res) => {
   }
 };
 
-module.exports = (err, req, res) => {
+module.exports = (err, req, res, next) => {
   // console.log(err.stack);
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
