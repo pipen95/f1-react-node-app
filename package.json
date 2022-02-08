@@ -6,6 +6,7 @@
   "scripts": {
     "client": "npm run start --prefix client",
     "server": "nodemon server/server.js",
+    "server:prod": "SET NODE_ENV=production && node server/server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "start": "node index.js"
   },

@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -9,7 +10,7 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = async (req, res, next) => {
+exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
 
   // SEND RESPONSE
@@ -20,9 +21,9 @@ exports.getAllUsers = async (req, res, next) => {
       users,
     },
   });
-};
+});
 
-exports.updateMe = async (req, res, next) => {
+exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -48,16 +49,16 @@ exports.updateMe = async (req, res, next) => {
       user: updatedUser,
     },
   });
-};
+});
 
-exports.deleteMe = async (req, res, next) => {
+exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
   res.status(204).json({
     status: 'success',
     data: null,
   });
-};
+});
 
 exports.getUser = (req, res) => {
   res.status(500).json({
