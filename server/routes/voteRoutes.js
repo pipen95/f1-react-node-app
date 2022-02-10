@@ -8,4 +8,10 @@ router
   .post(voteController.createVote)
   .get(voteController.getAllVotes);
 
+router
+  .route('/:id')
+  .get(voteController.getVote)
+  .patch(voteController.updateVote)
+  .delete(voteController.deleteVote);
+
 module.exports = router;

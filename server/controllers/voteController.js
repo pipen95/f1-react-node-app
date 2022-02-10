@@ -2,16 +2,6 @@ const Vote = require('../models/voteModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
-exports.getVotes = catchAsync(async (req, res) => {
-  const allVotes = await Vote.find();
-  res.status(200).json({
-    status: 'success',
-    data: {
-      allVotes,
-    },
-  });
-});
-
 exports.createVote = catchAsync(async (req, res, next) => {
   const newVote = await Vote.create(req.body);
   console.log(newVote);
@@ -40,3 +30,23 @@ exports.getAllVotes = catchAsync(async (req, res) => {
     },
   });
 });
+
+exports.getVote = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined!',
+  });
+};
+
+exports.updateVote = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined!',
+  });
+};
+exports.deleteVote = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined!',
+  });
+};
