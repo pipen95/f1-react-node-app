@@ -60,13 +60,11 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.methods.correctPassword = async function (
-  candidatePassword,
-  userPassword
-) {
-  // eslint-disable-next-line no-return-await
-  return await bcrypt.compare(candidatePassword, userPassword);
-};
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
 
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
@@ -74,10 +72,11 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
       this.passwordChangedAt.getTime() / 1000,
       10
     );
-    return JWTTimestamp < changedTimestamp; // 100 < 200 --> Ok
+
+    return JWTTimestamp < changedTimestamp;
   }
 
-  // Not changed
+  // False means NOT changed
   return false;
 };
 
