@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card, Badge } from "react-bootstrap";
 import ReactCardFlip from "react-card-flip";
 import data from "../../data/data.json";
-import { Container } from "./Container";
+import Container from "../modal/Container";
 class CardItem extends Component {
   constructor(props) {
     super(props);

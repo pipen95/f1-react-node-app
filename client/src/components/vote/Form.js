@@ -344,7 +344,6 @@ export const Form = ({ id, driver_name, closeModal }) => {
   };
 
   // JSX FORM
-
   return (
     <div>
       {submitting ? (

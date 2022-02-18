@@ -5,7 +5,7 @@ import { Route,Routes} from "react-router-dom";
 import Vote from "./components/vote/Vote";
 import Standings from "./components/Standings";
 import Home from "./components/Home";
-import Login from "./components/Login";
+import Modal from "./components/modal/Modal";
 
 import Menu from "./components/Menu";
 
@@ -18,7 +18,7 @@ const App = () => {
           <Route exact path={"/home"} element={<Home />} />
           <Route exact path="/standings" element={<Standings />} />
           <Route exact path="/vote" element={<Vote />} />
-          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/login/*" element={<Modal />} />
 
         </Routes>
     </div>
