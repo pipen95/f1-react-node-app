@@ -1,32 +1,26 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-country-select/dist/react-bootstrap-country-select.css";
-import { Route, Switch } from "react-router-dom";
+import { Route,Routes} from "react-router-dom";
 import Vote from "./components/vote/Vote";
-import Results from "./components/results/Results";
-import Home from "./components/home/Home";
-import Map from "./components/map/Map";
+import Standings from "./components/Standings";
+import Home from "./components/Home";
+import Login from "./components/Login";
 
-import Menu from "./components/nav/Menu";
+import Menu from "./components/Menu";
 
 const App = () => {
   return (
     <div className="App">
       <Menu />
-      <Switch>
-        <Route path="/vote">
-          <Vote />
-        </Route>
-        <Route path="/results">
-          <Results />
-        </Route>
-        <Route path="/map">
-          <Map />
-        </Route>
-        <Route path="/" exact>
-          <Home />
-        </Route>
-      </Switch>
+      <Routes>
+          <Route exact path={"/"} element={<Home />} />
+          <Route exact path={"/home"} element={<Home />} />
+          <Route exact path="/standings" element={<Standings />} />
+          <Route exact path="/vote" element={<Vote />} />
+          <Route exact path="/login" element={<Login />} />
+
+        </Routes>
     </div>
   );
 };

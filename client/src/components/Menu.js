@@ -10,15 +10,12 @@ const Menu = () => {
             className="justify-content-start flex-nowrap"
             style={{ marginLeft: "2.4vw" }}
           >
-            <Navbar.Brand href="/">Home</Navbar.Brand>
+            <Navbar.Brand href="/">F1 Bistrot</Navbar.Brand>
             <Nav className="me-auto">
-              <Nav.Link href="/results">Results</Nav.Link>
+              <Nav.Link href="/standings">Standings</Nav.Link>
             </Nav>
             <Nav className="me-auto">
-              <Nav.Link href="/vote">Vote</Nav.Link>
-            </Nav>
-            <Nav className="me-auto">
-              <Nav.Link href="/map">Map</Nav.Link>
+              <Nav.Link href="/vote">Game</Nav.Link>
             </Nav>
           </Container>
           <Container
@@ -26,7 +23,7 @@ const Menu = () => {
             style={{ marginRight: "2.3vw" }}
           >
             <Nav className="me-auto">
-              <Nav.Link href="#">Login</Nav.Link>
+              <Nav.Link href="/login">Login</Nav.Link>
             </Nav>
             <Nav className="me-auto">
               <Nav.Link href="#">Sign up</Nav.Link>

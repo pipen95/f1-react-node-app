@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 
-function MapArea() {
+function Map() {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const bounds = useRef(null);
@@ -93,4 +93,4 @@ function MapArea() {
     </div>
   );
 }
-export default MapArea;
+export default Map;

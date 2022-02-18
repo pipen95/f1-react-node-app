@@ -12,7 +12,7 @@ function Vote() {
           <Jumbotron className="shadow">
             <Jumbotron className="bg-dark">
               <h1 className="header text-center color-white text-white mb-0">
-                Rate the F1&nbsp;drivers after Mexican GP !
+                Make your predictions before the Next GP !
               </h1>
               <div className="loader-container">
                 <div className="loader"></div>
