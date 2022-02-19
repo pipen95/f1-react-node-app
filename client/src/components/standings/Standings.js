@@ -15,7 +15,7 @@ function Standings() {
                 Season {new Date().getFullYear()} standings
               </h1>
             </Jumbotron>
-            <Jumbotron style={{ paddingLeft: '20vw', paddingRight:'20vw'}}>
+            <Jumbotron  className="d-flex justify-content-center table-container" >
               <Table />
             </Jumbotron>
           </Jumbotron>

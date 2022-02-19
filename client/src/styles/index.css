@@ -242,7 +242,7 @@ code {
   outline: none;
 }
 
-.txt-center {
+.text-center {
   text-align: center;
 }
 .hide {
@@ -334,10 +334,6 @@ label > input[type='radio'] {
   width: 0px !important;
 } */
 
-.text-center {
-  text-align: center !important;
-}
-
 .table thead > tr > th {
   border-top: none;
 }
@@ -359,3 +355,16 @@ label > input[type='radio'] {
 .country-flag {
   width: 40px;
 }
+
+.table-container {
+  padding: 0 !important;
+}
+
+.table td,
+.table th {
+  vertical-align: middle !important;
+}
+
+/* .table td.country {
+  padding-right: 4rem !important;
+} */

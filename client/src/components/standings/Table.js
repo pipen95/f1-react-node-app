@@ -61,7 +61,7 @@ class Table extends Component {
             </a>
           </td>
           <td>{`${driver.Driver.GivenName}\u00a0${driver.Driver.FamilyName}`}</td>
-          <td>
+          <td className='country text-center'>
             <img
               className="country-flag"
               alt=""
@@ -88,6 +88,7 @@ class Table extends Component {
               {driver.Constructor.Name}
             </span>
           </td>
+          <td className="text-center">+1</td>
           <td className="text-center">{driver.wins}</td>
           <td className="text-center">{driver.points}</td>
         </tr>
@@ -111,9 +112,10 @@ class Table extends Component {
               </th>
               <th scope="col"></th>
               <th scope="col">Name</th>
-              <th scope="col">Country</th>
+              <th scope="col" className="text-center">Country</th>
               <th scope="col"></th>
               <th scope="col">Team</th>
+              <th scope="col">Delta</th>
               <th scope="col" className="text-center">
                 Wins
               </th>
