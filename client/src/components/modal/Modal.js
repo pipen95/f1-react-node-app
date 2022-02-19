@@ -6,6 +6,7 @@ import FocusTrap from "focus-trap-react";
 
 
 export const Modal = ({
+  path,
   onClickOutside,
   onKeyDown,
   modalRef,
@@ -15,9 +16,8 @@ export const Modal = ({
   id,
 }) => {
   
-
-  const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
-  const lastItem = getLastItem(`${window.location.href}`);
+  // const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
+  // const lastItem = getLastItem(`${window.location.href}`);
 
   return ReactDOM.createPortal(
     <FocusTrap>
@@ -46,13 +46,13 @@ export const Modal = ({
             </svg>
           </button>
           
-          { (lastItem && lastItem ==="vote") && (
+          { (path ==="vote") && (
           <div className="modal-body">
             <Form driver_name={name} id={id} closeModal={closeModal} />
           </div>
           )}
 
-          { (lastItem && lastItem ==="login") && (
+          { (path ==="login") && (
           <div className="modal-body">
             <Login closeModal={closeModal} />
           </div>

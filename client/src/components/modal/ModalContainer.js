@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Modal from "./Modal";
 import TriggerButton from "./TriggerButton";
 
-export class Container extends Component {
+export class ModalContainer extends Component {
   state = { isShown: false };
 
   showModal = () => {
@@ -43,6 +43,7 @@ export class Container extends Component {
         />
         {this.state.isShown ? (
           <Modal
+          path={this.props.path}
             name={this.props.name}
             id={this.props.id}
             modalRef={(n) => (this.modal = n)}
@@ -56,4 +57,4 @@ export class Container extends Component {
     );
   }
 }
-export default Container;
+export default ModalContainer;

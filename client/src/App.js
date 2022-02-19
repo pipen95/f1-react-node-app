@@ -14,12 +14,10 @@ const App = () => {
     <div className="App">
       <Menu />
       <Routes>
-          <Route exact path={"/"} element={<Home />} />
-          <Route exact path={"/home"} element={<Home />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/home" element={<Home />} />
           <Route exact path="/standings" element={<Standings />} />
           <Route exact path="/vote" element={<Vote />} />
-          <Route exact path="/login/*" element={<Modal />} />
-
         </Routes>
     </div>
   );

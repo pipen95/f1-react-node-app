@@ -1,5 +1,6 @@
 import React from "react";
 import { Nav, Navbar, Container } from "react-bootstrap";
+import ModalContainer from "./modal/ModalContainer";
 
 const Menu = () => {
   return (
@@ -23,10 +24,10 @@ const Menu = () => {
             style={{ marginRight: "2.3vw" }}
           >
             <Nav className="me-auto">
-              <Nav.Link href="/login">Login</Nav.Link>
+            <ModalContainer triggerText="Login" path="login"/>
             </Nav>
             <Nav className="me-auto">
-              <Nav.Link href="#">Sign up</Nav.Link>
+            <ModalContainer triggerText="Sign up" path="signup"/>
             </Nav>
           </Container>
         </Container>

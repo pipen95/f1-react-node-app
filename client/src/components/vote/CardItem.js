@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card, Badge } from "react-bootstrap";
 import ReactCardFlip from "react-card-flip";
 import data from "../../data/data.json";
-import Container from "../modal/Container";
+import ModalContainer from "../modal/ModalContainer";
 class CardItem extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +26,6 @@ class CardItem extends Component {
   };
 
   render() {
-    const triggerText = "Rate him!";
     return (
       <ReactCardFlip isFlipped={this.state.isFlipped}>
         <Card
@@ -58,11 +57,18 @@ class CardItem extends Component {
               >
                 Stats
               </Badge>
-              <Container
+              <Badge
+                pill
+                variant="light"
+                className="py-1 px-2 align-self-center btn vote-btn"
+              >
+              <ModalContainer
                 id={this.props.driver.driverId}
                 name={`${this.props.driver.GivenName} ${this.props.driver.FamilyName}`}
-                triggerText={triggerText}
+                triggerText="Rate him!"
+                path="vote"
               />
+              </Badge>
             </Card.Text>
           </Card.Body>
         </Card>

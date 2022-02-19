@@ -1,14 +1,14 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
@@ -222,9 +222,9 @@ code {
   color: #212529;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-size: 75%;
   font-weight: 700;
   line-height: 1;
@@ -262,7 +262,7 @@ code {
   min-height: 100vh;
 }
 
-label > input[type="radio"] {
+label > input[type='radio'] {
   display: none;
 }
 
@@ -318,9 +318,14 @@ label > input[type="radio"] {
 }
 
 .marker {
-  background-image: url("../img/pin.png");
+  background-image: url('../img/pin.png');
   background-size: cover;
   width: 32px;
   height: 40px;
   cursor: pointer;
+}
+
+.vote-btn > a.nav-link {
+  padding: 0;
+  color: inherit;
 }
