@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import FocusTrap from "focus-trap-react";
 import Form  from "../vote/Form";
 import Login  from "../Login";
-import FocusTrap from "focus-trap-react";
+import Signup from "../Signup";
 
 
 export const Modal = ({
@@ -55,6 +56,11 @@ export const Modal = ({
           { (path ==="login") && (
           <div className="modal-body">
             <Login closeModal={closeModal} />
+          </div>
+          )}
+          { (path ==="signup") && (
+          <div className="modal-body">
+            <Signup closeModal={closeModal} />
           </div>
           )}
 
