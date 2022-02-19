@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Card, Badge } from "react-bootstrap";
 import ReactCardFlip from "react-card-flip";
-import data from "../../data/data.json";
+import dataDrivers from "../../data/data_drivers.json";
 import ModalContainer from "../modal/ModalContainer";
 class CardItem extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class CardItem extends Component {
   }
 
   imagePicker = (id, defaultVal) => {
-    const x = data.filter((el) => el.id === id);
+    const x = dataDrivers.filter((el) => el.id === id);
     try {
       return x[0].img;
     } catch (e) {

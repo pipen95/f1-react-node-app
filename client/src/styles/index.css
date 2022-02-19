@@ -330,6 +330,32 @@ label > input[type='radio'] {
   color: inherit;
 }
 
+/* .table {
+  width: 0px !important;
+} */
+
+.text-center {
+  text-align: center !important;
+}
+
 .table thead > tr > th {
   border-top: none;
+}
+
+.loserDriverImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: #ebebe6;
+}
+
+.rivalTeam {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: 0px;
+}
+
+.country-flag {
+  width: 40px;
 }

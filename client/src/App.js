@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-country-select/dist/react-bootstrap-country-select.css";
 import { Route,Routes} from "react-router-dom";
 import Vote from "./components/vote/Vote";
-import Standings from "./components/Standings";
+import Standings from "./components/standings/Standings";
 import Home from "./components/Home";
 import Menu from "./components/Menu";
 

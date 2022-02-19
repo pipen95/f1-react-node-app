@@ -1,0 +1,42 @@
+[
+  {
+    "id": "red_bull",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/RedBullIcon.jpg"
+  },
+  {
+    "id": "mercedes",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/MercedesIcon.jpg"
+  },
+  {
+    "id": "ferrari",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/ferrariIcon.jpg"
+  },
+  {
+    "id": "mclaren",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/MclarenIcon.jpg"
+  },
+  {
+    "id": "alpine",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/AlpineIcon.jpg"
+  },
+  {
+    "id": "alpha_tauri",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/AlphaTauriIcon.jpg"
+  },
+  {
+    "id": "aston_martin",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/AstonMartinIcon.jpg"
+  },
+  {
+    "id": "alfa",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/AlfaRomeoIcon.jpg"
+  },
+  {
+    "id": "williams",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/WilliamsIcon.jpg"
+  },
+  {
+    "id": "haas",
+    "img": "https://www.f1fantasytracker.com/Images/Constructors/HaasIcon.jpg"
+  }
+]
