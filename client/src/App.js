@@ -5,8 +5,6 @@ import { Route,Routes} from "react-router-dom";
 import Vote from "./components/vote/Vote";
 import Standings from "./components/Standings";
 import Home from "./components/Home";
-import Modal from "./components/modal/Modal";
-
 import Menu from "./components/Menu";
 
 const App = () => {

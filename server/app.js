@@ -6,6 +6,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
 const voteRouter = require('./routes/voteRoutes');
 const userRouter = require('./routes/userRoutes');
+const authController = require('./controllers/authController');
 
 const app = express();
 

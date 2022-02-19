@@ -1,38 +1,46 @@
-import React, { useRef, useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 
-export const Login = ({ id, closeModal }) => {
-  let _isMounted = useRef(true);
+export const Login = ({closeModal }) => {
   const [submitting, setSubmitting] = useState(false);
-  const [email, setEmail] = useState(false);
-  const [password, setPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  })
+
+  console.log(formData);
 
   // HANDLER FONCTIONS
+
+  const handleChange = (event) => {
+    return setFormData({...formData, [event.target.name]: event.target.value})
+  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
-    postData(id,closeModal);
+    postData(formData,closeModal);
+    return setFormData({
+      email: "",
+      password: ""
+    })
   };
 
     // SUBMIT POST REQUEST
-    const postData = async (email,password, closeModal) => {
+    const postData = async (data, closeModal) => {
       const payload = {
-        email,
-        password, 
-      };
-
-
+        email: data.email,
+        password: data.password, 
+      }
       try {
         const res = await axios.post(
-          "http://localhost:3001/api/v1/login",
+          "http://localhost:3001/api/v1/users/login",
           payload
         );
-        if (_isMounted.current && res) {
+        if (res) {
           setSubmitting(false);
           closeModal();
-        } else {
-          _isMounted = null;
         }
       } catch (error) {
         console.log(error.name);
@@ -62,8 +70,8 @@ export const Login = ({ id, closeModal }) => {
                     id="email"
                     className="form-control"
                     name="email"
-                    onChange={setEmail}
-                    value={email || ""}
+                    onChange={handleChange}
+                    value={formData.email}
                   />
                 </fieldset>
                 <fieldset className="form-group" disabled={submitting}>
@@ -73,8 +81,8 @@ export const Login = ({ id, closeModal }) => {
                     id="password"
                     className="form-control"
                     name="password"
-                    onChange={setPassword}
-                    value={password || ""}
+                    onChange={handleChange}
+                    value={formData.password}
                   />
                 </fieldset>
               </div>
