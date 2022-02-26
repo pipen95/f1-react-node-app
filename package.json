@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "npm run start --prefix client",
-    "server": "nodemon server.js",
-    "server:prod": "SET NODE_ENV=production && node server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "dev": "nodemon server.js",
+    "prod": "SET NODE_ENV=production && node server.js",
     "start": "node index.js"
   },
   "keywords": [],
