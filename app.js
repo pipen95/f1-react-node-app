@@ -1,7 +1,7 @@
-const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-const cors = require('cors');
+// const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
 const voteRouter = require('./routes/voteRoutes');
@@ -11,23 +11,26 @@ const app = express();
 
 // GLOBAL MIDDLEWARES
 
-// Serving static files
-app.use(express.static(path.resolve(__dirname, '../client/build')));
-
 // Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// app.use((req, res, next) => {
-//   console.log(req.headers);
-//   next();
-// });
+app.use((req, res, next) => {
+  console.log(req.headers);
+  next();
+});
 
-// Parse JSON bodies (as sent by API clients)
-// const bodyParser = require('body-parser');
-app.use(cors());
+// Parse JSON bodies and cookies (as sent by API clients)
+app.use(cookieParser());
 app.use(express.json());
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//     credentials: true,
+//     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+//   })
+// );
 
 // Access the parse results as request.body
 // ROUTES
