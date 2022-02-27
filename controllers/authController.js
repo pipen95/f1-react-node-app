@@ -63,6 +63,11 @@ exports.login = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.logout = catchAsync(async (req, res, next) => {
+  req.session = null;
+  return res.status(200).send({ message: "You've been signed out!" });
+});
+
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check if it's there
   let token;

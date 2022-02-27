@@ -22,8 +22,11 @@ app.use((req, res, next) => {
 });
 
 // Parse JSON bodies and cookies (as sent by API clients)
-app.use(cookieParser());
+
 app.use(express.json());
+
+app.use(cookieParser());
+
 // app.use(
 //   cors({
 //     origin: 'http://localhost:3000',
