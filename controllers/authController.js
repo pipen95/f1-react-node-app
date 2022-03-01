@@ -15,7 +15,10 @@ const cookieOptions = {
   expires: new Date(
     Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
   ),
-  httpOnly: true,
+  // httpOnly: false,
+  credentials: 'include',
+  sameSite: 'none',
+  secure: false,
 };
 
 const createSendToken = (user, statusCode, res) => {
@@ -64,8 +67,16 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.logout = catchAsync(async (req, res, next) => {
-  req.session = null;
-  return res.status(200).send({ message: "You've been signed out!" });
+  res.clearCookie();
+  return res.status(200).json({ status: 'success' });
+
+  // res.cookie('user', 'null', {
+  //   expires: new Date(Date.now() -10 * 1000),
+  //   httpOnly: true,
+  //   sameSite: 'none',
+  //   secure: false,
+  // });
+  // return res.status(200).json({ status: 'success' });
 });
 
 exports.protect = catchAsync(async (req, res, next) => {

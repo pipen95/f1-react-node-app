@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
-// const cors = require('cors');
+const cors = require('cors');
+const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
@@ -24,21 +25,25 @@ app.use((req, res, next) => {
 // Parse JSON bodies and cookies (as sent by API clients)
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use(
+  cors({
+    origin:'http://localhost:3001',
+    credentials: true,
+    headers:['Content-Length','Content-Type','Authorization'],
+  })
+);
+
+// allow the app to use cookieparser
+app.use(helmet());
 
 app.use(cookieParser());
 
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000',
-//     credentials: true,
-//     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-//   })
-// );
-
 // Access the parse results as request.body
 // ROUTES
-app.use('/api/v1/votes', voteRouter);
-app.use('/api/v1/users', userRouter);
+app.use('/api/votes', voteRouter);
+app.use('/api/users', userRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
