@@ -6,23 +6,35 @@ const router = express.Router();
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 
+// Protect all routes after this middleware
+router.use(authController.protect);
+
+// router.patch('/updatePassword', authController.updatePassword);
+// router.get('/me', userController.getMe, userController.getUser);
+// router.patch(
+//   '/updateMe',
+//   userController.uploadUserPhoto,
+//   userController.resizeUserPhoto,
+//   userController.updateMe
+// );
+
+// Restrict these routes to admin
+router.use(authController.restrictTo('admin'));
+
 router
   .route('/')
-  .get(authController.protect, userController.getAllUsers)
+  .get(userController.getAllUsers)
   .post(userController.createUser);
 
 router
   .route('/:id')
   .get(userController.getUser)
   .patch(userController.updateUser)
-  .delete(
-    authController.protect,
-    authController.restrictTo('admin', 'mod'),
-    userController.deleteUser
-  );
+  .delete(userController.deleteUser);
 
 module.exports = router;

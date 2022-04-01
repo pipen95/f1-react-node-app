@@ -17,27 +17,27 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// LOG HEADERS
 app.use((req, res, next) => {
   console.log(req.headers);
   next();
 });
 
-// Parse JSON bodies and cookies (as sent by API clients)
+// CORS
+app.use(
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+    headers: ['Content-Length', 'Content-Type', 'Authorization'],
+  })
+);
+app.use(helmet());
 
+// Parse JSON bodies and cookies (as sent by API clients)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(
-  cors({
-    origin:'http://localhost:3001',
-    credentials: true,
-    headers:['Content-Length','Content-Type','Authorization'],
-  })
-);
-
 // allow the app to use cookieparser
-app.use(helmet());
-
 app.use(cookieParser());
 
 // Access the parse results as request.body
