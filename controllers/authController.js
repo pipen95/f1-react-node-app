@@ -21,7 +21,6 @@ const createSendToken = (user, statusCode, res) => {
     httpOnly: true,
     sameSite: 'strict',
     secure: process.env.NODE_ENV !== 'development',
-    path: '/',
   });
 
   // Remove the password from the output
@@ -32,7 +31,15 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-exports.signup = catchAsync(async (req, res) => {
+exports.signup = catchAsync(async (req, res, next) => {
+  const userExist = await User.findOne({ email: req.body.email });
+
+  if (userExist) {
+    return next(
+      new AppError('This email is already in use. Please login instead.', 400)
+    );
+  }
+
   const newUser = await User.create(req.body);
   createSendToken(newUser, 201, res);
 });
@@ -56,12 +63,6 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.logout = (req, res) => {
-  // res.cookie('jwt', 'null', {
-  //   expires: new Date(Date.now() - 10 * 1000),
-  //   httpOnly: true,
-  // });
-  // res.status(200).json({ status: 'success' });
-
   res.status(204).clearCookie('jwt').send('Cookie cleared!');
 };
 

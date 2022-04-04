@@ -28,7 +28,6 @@ app.use(
   cors({
     credentials: true,
     origin: 'http://localhost:3000',
-    headers: ['Content-Length', 'Content-Type', 'Authorization'],
   })
 );
 app.use(helmet());
