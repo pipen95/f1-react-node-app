@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -9,6 +10,10 @@ const voteRouter = require('./routes/voteRoutes');
 const userRouter = require('./routes/userRoutes');
 
 const app = express();
+
+// VIEWS ENGINE
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 // GLOBAL MIDDLEWARES
 
