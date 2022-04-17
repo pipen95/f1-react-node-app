@@ -113,6 +113,13 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+exports.check = (req, res) => {
+  res.status(200).json({
+    status: 'sucess',
+    message: 'You have access',
+  });
+};
+
 exports.restrictTo =
   (...roles) =>
   (req, res, next) => {
