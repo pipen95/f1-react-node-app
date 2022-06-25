@@ -23,6 +23,27 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
+exports.getUser = catchAsync(async (req, res, next) => {
+  let query = User.findById(req.params.id);
+  const doc = await query;
+
+  if (!doc) {
+    return next(new AppError('No document found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      doc,
+    },
+  });
+});
+
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
@@ -60,12 +81,6 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!',
-  });
-};
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',

@@ -74,13 +74,7 @@ exports.logout = (req, res) => {
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check if it's there
   let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    // eslint-disable-next-line prefer-destructuring
-    token = req.headers.authorization.split(' ')[1];
-  } else if (req.cookies.jwt) {
+  if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
 
