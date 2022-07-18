@@ -1,6 +1,9 @@
 const express = require('express');
+const multer = require('multer');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+
+const upload = multer({ dest: './../../f1-bistro/public/img/users' });
 
 const router = express.Router();
 
@@ -15,14 +18,15 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.use(authController.protect);
 router.get('/check', authController.check);
 
-router.get('/me', userController.getMe, userController.getUser);
 // router.patch('/updatePassword', authController.updatePassword);
-// router.patch(
-//   '/updateMe',
-//   userController.uploadUserPhoto,
-//   userController.resizeUserPhoto,
-//   userController.updateMe
-// );
+router.get('/me', userController.getMe, userController.getUser);
+router.patch(
+  '/updateMe',
+  upload.single('photo'),
+  // userController.uploadUserPhoto,
+  // userController.resizeUserPhoto,
+  userController.updateMe
+);
 
 // Restrict these routes to admin
 router.use(authController.restrictTo('admin'));
