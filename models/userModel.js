@@ -24,7 +24,8 @@ const userSchema = new mongoose.Schema({
 
   photo: {
     type: String,
-    default: 'default.png',
+    default:
+      'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
   },
 
   role: {
