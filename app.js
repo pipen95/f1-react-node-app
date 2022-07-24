@@ -11,9 +11,19 @@ const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
-// VIEWS ENGINE
-app.set('view engine', 'pug');
+// SERVE STATIC FILES
+app.use('/public', express.static(__dirname + '/public'));
+
+// VIEWS ENGINE PUG
 app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+// VIEWS ENGINE HTML
+// app.use(express.static(path.join(__dirname, 'public')));
+// app.set('views', path.join(__dirname, 'views'));
+
+// app.engine('html', require('ejs').renderFile);
+// app.set('view engine', 'html');
 
 // GLOBAL MIDDLEWARES
 
@@ -35,7 +45,6 @@ app.use(
     origin: 'http://localhost:3000',
   })
 );
-app.use(helmet());
 
 // Parse JSON bodies and cookies (as sent by API clients)
 app.use(express.json());
@@ -45,6 +54,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Access the parse results as request.body
+
 // ROUTES
 app.use('/api/votes', voteRouter);
 app.use('/api/users', userRouter);

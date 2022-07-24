@@ -1,9 +1,6 @@
 const express = require('express');
-const multer = require('multer');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
-
-const upload = multer({ dest: './../../f1-bistro/public/img/users' });
 
 const router = express.Router();
 
@@ -22,8 +19,7 @@ router.get('/check', authController.check);
 router.get('/me', userController.getMe, userController.getUser);
 router.patch(
   '/updateMe',
-  upload.single('photo'),
-  // userController.uploadUserPhoto,
+  userController.uploadUserPhoto,
   // userController.resizeUserPhoto,
   userController.updateMe
 );
