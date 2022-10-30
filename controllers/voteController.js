@@ -6,12 +6,6 @@ exports.createVote = catchAsync(async (req, res, next) => {
   const newVote = await Vote.create(req.body);
   console.log(newVote);
 
-  if (newVote.rating === 0) {
-    return next(
-      new AppError('To submit your vote, please enter a rating ', 400)
-    );
-  }
-
   res.status(201).json({
     status: 'success',
     data: {
