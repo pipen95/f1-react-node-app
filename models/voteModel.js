@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 // const validator = require("validator");
 
 const voteSchema = new mongoose.Schema({
-  votedBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
   circuitId: String,
+  raceName: String,
   season: Number,
-  dateCreated: Date,
   vote: [
     {
       id: String,
+      country: String,
       position: Number,
       bonus: {
         type: [String],
@@ -17,12 +17,16 @@ const voteSchema = new mongoose.Schema({
     },
   ],
 
-  // Output
-  // vote: [{
-  //         "id": "albon",
-  //         "position": 10,
-  //         "bonus":["dod","ok","fl"]
-  //     }]
+  votedBy: {
+    type: mongoose.ObjectId,
+    default: '62182ff2bda82e9b8e3646c8',
+    required: [true],
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 const Vote = mongoose.model('Vote', voteSchema);
