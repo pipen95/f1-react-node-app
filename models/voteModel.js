@@ -11,9 +11,7 @@ const voteSchema = new mongoose.Schema({
       id: String,
       country: String,
       position: Number,
-      bonus: {
-        type: [String],
-      },
+      bonus: [],
     },
   ],
 
