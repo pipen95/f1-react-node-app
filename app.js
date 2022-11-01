@@ -33,10 +33,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // LOG HEADERS
-app.use((req, res, next) => {
-  console.log(req.headers);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(req.headers);
+//   next();
+// });
 
 // CORS
 app.use(
