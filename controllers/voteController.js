@@ -4,7 +4,6 @@ const catchAsync = require('../utils/catchAsync');
 
 exports.createVote = catchAsync(async (req, res, next) => {
   const newVote = await Vote.create(req.body);
-  console.log(newVote);
 
   res.status(201).json({
     status: 'success',
@@ -32,19 +31,22 @@ exports.getVote = (req, res) => {
   });
 };
 
-exports.updateVote = catchAsync(async (req, res) => {
-  console.log(JSON.stringify(req.body));
+exports.updateVote = catchAsync(async (req, res, next) => {
+  const updatedVote = await Vote.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
-  // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filteredBody = filterObj(req.body, 'votedBy');
+  if (!updatedVote) {
+    return next(new AppError('No document found with that ID', 404));
+  }
 
-  // 3) Update user document
-  const updatedVote = await Vote.findByIdAndUpdate(req.vote.id, filteredBody);
+  console.log(updatedVote);
 
   res.status(200).json({
     status: 'success',
     data: {
-      vote: updatedVote,
+      updatedVote,
     },
   });
 });
