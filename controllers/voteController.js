@@ -24,12 +24,26 @@ exports.getAllVotes = catchAsync(async (req, res) => {
   });
 });
 
-exports.getVote = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!',
+exports.getVote = catchAsync(async (req, res, next) => {
+  const vote = await Vote.findOne({ votedBy: req.params.id }).sort({
+    field: 'asc',
+    _id: -1,
   });
-};
+
+  console.log(vote);
+
+  if (!vote) {
+    console.log('no vote');
+    return next(new AppError('Cant find a vote', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      vote,
+    },
+  });
+});
 
 exports.updateVote = catchAsync(async (req, res, next) => {
   const updatedVote = await Vote.findByIdAndUpdate(req.params.id, req.body, {
@@ -40,8 +54,6 @@ exports.updateVote = catchAsync(async (req, res, next) => {
   if (!updatedVote) {
     return next(new AppError('No document found with that ID', 404));
   }
-
-  console.log(updatedVote);
 
   res.status(200).json({
     status: 'success',
