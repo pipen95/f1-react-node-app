@@ -9,6 +9,7 @@ const voteSchema = new mongoose.Schema({
   vote: [
     {
       id: String,
+      name: String,
       country: String,
       position: Number,
       bonus: [],
