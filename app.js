@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
 const voteRouter = require('./routes/voteRoutes');
+const resultRouter = require('./routes/resultRoutes');
 const userRouter = require('./routes/userRoutes');
 
 const app = express();
@@ -57,6 +58,7 @@ app.use(cookieParser());
 
 // ROUTES
 app.use('/api/votes', voteRouter);
+app.use('/api/results', resultRouter);
 app.use('/api/users', userRouter);
 
 app.all('*', (req, res, next) => {

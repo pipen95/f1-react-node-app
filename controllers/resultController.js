@@ -13,10 +13,14 @@ exports.createResult = catchAsync(async (req, res, next) => {
 });
 
 exports.updateResult = catchAsync(async (req, res, next) => {
-  const updatedVote = await Result.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  const updatedVote = await Result.findOneAndUpdate(
+    { year: req.params.year, race: req.params.race },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
   if (!updatedVote) {
     return next(new AppError('No document found with that ID', 404));
