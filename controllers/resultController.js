@@ -1,4 +1,4 @@
-const Result = require('../models/voteModel');
+const Result = require('../models/resultModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.createResult = catchAsync(async (req, res, next) => {

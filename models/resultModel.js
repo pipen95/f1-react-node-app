@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const resultSchema = new mongoose.Schema({
   circuitId: String,
-  raceName: String,
   season: Number,
   result: [
     {
@@ -20,6 +19,6 @@ const resultSchema = new mongoose.Schema({
   },
 });
 
-const Vote = mongoose.model('Result', resultSchema);
+const Result = mongoose.model('Result', resultSchema);
 
-module.exports = Vote;
+module.exports = Result;
