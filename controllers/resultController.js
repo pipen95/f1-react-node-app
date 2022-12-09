@@ -12,8 +12,27 @@ exports.createResult = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.checkResult = catchAsync(async (req, res, next) => {
+  const result = await Result.find({
+    year: req.params.year,
+    race: req.params.race,
+  });
+
+  if (!result) {
+    res.status(404).json({
+      status: 'not found',
+      data: false,
+    });
+  } else {
+    res.status(200).json({
+      status: 'success',
+      data: true,
+    });
+  }
+});
+
 exports.updateResult = catchAsync(async (req, res, next) => {
-  const updatedVote = await Result.findOneAndUpdate(
+  const updatedResult = await Result.findOneAndUpdate(
     { year: req.params.year, race: req.params.race },
     req.body,
     {
@@ -22,8 +41,8 @@ exports.updateResult = catchAsync(async (req, res, next) => {
     }
   );
 
-  if (!updatedVote) {
-    return next(new AppError('No document found with that ID', 404));
+  if (!updatedResult) {
+    return next(new AppError('No document found', 404));
   }
 
   res.status(200).json({
