@@ -18,16 +18,20 @@ exports.checkResult = catchAsync(async (req, res, next) => {
     race: req.params.race,
   });
 
-  if (!result) {
-    res.status(404).json({
-      status: 'not found',
-      data: false,
-    });
-  } else {
+  console.log(result);
+
+  if (Array.isArray(result) && result.length) {
     res.status(200).json({
       status: 'success',
       data: true,
     });
+  } else if (Array.isArray(result) && !result.length) {
+    res.status(200).json({
+      status: 'success',
+      data: false,
+    });
+  } else {
+    return next;
   }
 });
 
@@ -37,7 +41,6 @@ exports.updateResult = catchAsync(async (req, res, next) => {
     req.body,
     {
       new: true,
-      runValidators: true,
     }
   );
 
