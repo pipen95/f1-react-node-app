@@ -13,36 +13,37 @@ exports.createResult = catchAsync(async (req, res, next) => {
 });
 
 exports.checkResult = catchAsync(async (req, res, next) => {
-  const result = await Result.find({
-    year: req.params.year,
-    race: req.params.race,
+  const result = await Result.findOne({
+    season: `${req.params.year}`,
+    circuitId: `${req.params.race}`,
   });
 
-  console.log(result);
-
-  if (Array.isArray(result) && result.length) {
+  if (result !== null) {
     res.status(200).json({
       status: 'success',
       data: true,
     });
-  } else if (Array.isArray(result) && !result.length) {
+  } else if (result === null) {
     res.status(200).json({
       status: 'success',
       data: false,
     });
   } else {
-    return next;
+    return next(new AppError('There is a problem', 404));
   }
 });
 
 exports.updateResult = catchAsync(async (req, res, next) => {
   const updatedResult = await Result.findOneAndUpdate(
-    { year: req.params.year, race: req.params.race },
+    { season: req.params.year, circuitId: req.params.race },
     req.body,
     {
       new: true,
+      runValidators: true,
     }
   );
+
+  console.log(req.body);
 
   if (!updatedResult) {
     return next(new AppError('No document found', 404));
